@@ -24,6 +24,8 @@ public class RepositoryController {
 
     @GetMapping("/list/{username}")
     public List<Repo> listRepositories(@PathVariable String username){
+        System.out.println("lalalal");
+
         return repositoryService.listRepositories(username);
     }
     @GetMapping("/rating/{username}")
