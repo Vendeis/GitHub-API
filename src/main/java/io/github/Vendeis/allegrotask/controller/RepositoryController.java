@@ -1,5 +1,6 @@
 package io.github.Vendeis.allegrotask.controller;
 
+import io.github.Vendeis.allegrotask.exception.UserNotFoundException;
 import io.github.Vendeis.allegrotask.model.Repo;
 import io.github.Vendeis.allegrotask.service.RepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +22,17 @@ public class RepositoryController {
         this.repositoryService = repositoryService;
     }
 
-    @GetMapping("/list/{userId}")
-    public List<Repo> listRepositories(@PathVariable String userId){
-        return repositoryService.listRepositories(userId);
+    @GetMapping("/list/{username}")
+    public List<Repo> listRepositories(@PathVariable String username){
+        return repositoryService.listRepositories(username);
+    }
+    @GetMapping("/rating/{username}")
+    public int countStargazers(@PathVariable String username){
+        return repositoryService.countStargazers(username);
     }
 
-    @ExceptionHandler(HttpClientErrorException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<String> userAlreadyExistsException(HttpClientErrorException exception) {
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> UserNotFoundException(UserNotFoundException exception) {
 
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
