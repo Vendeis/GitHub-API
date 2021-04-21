@@ -4,10 +4,7 @@ package io.github.Vendeis.allegrotask.service;
 import io.github.Vendeis.allegrotask.exception.UserNotFoundException;
 import io.github.Vendeis.allegrotask.model.Repo;
 import org.apache.catalina.User;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -23,15 +20,15 @@ public class RepositoryService {
     private final String listUrl = "https://api.github.com/users/";
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public List<Repo> listRepositories(String username)  {
+    public List<Repo> listRepositories(String username, String token)  {
 
-        List<Repo> repos = getReposFromGitHub(username);
+        List<Repo> repos = getReposFromGitHub(username, token);
         return repos;
     }
 
-    public int countStargazers(String username) {
+    public int countStargazers(String username, String token) {
         int starCount = 0;
-        List<Repo> repos = getReposFromGitHub(username);
+        List<Repo> repos = getReposFromGitHub(username, token);
 
         for(Repo repo : repos){
             starCount += repo.getStargazers_count();
@@ -39,12 +36,13 @@ public class RepositoryService {
         return starCount;
     }
 
-    public List<Repo> getReposFromGitHub(String username){
+    public List<Repo> getReposFromGitHub(String username, String token){
         String url = listUrl + username + "/repos";
         try {
-
-            ResponseEntity<Repo[]> responseEntity =
-                    restTemplate.getForEntity(url, Repo[].class);
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", token);
+            HttpEntity<String> request = new HttpEntity<>(headers);
+            ResponseEntity<Repo[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET, request, Repo[].class);
 
             //if user has more than 30 repositories, they are divided into pages, it needs to be addressed
 
@@ -68,7 +66,7 @@ public class RepositoryService {
 
                 List<Repo> repoList = new ArrayList<>();
                 for(int i=1; i<=lastPageNumber; i++){
-                    responseEntity = restTemplate.getForEntity(url + "?page=" + i, Repo[].class);
+                    responseEntity = restTemplate.exchange(url + "?page=" + i, HttpMethod.GET, request, Repo[].class);
 
                     Collections.addAll(repoList,responseEntity.getBody());
                 }

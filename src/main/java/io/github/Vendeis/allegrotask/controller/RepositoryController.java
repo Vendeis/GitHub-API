@@ -23,14 +23,12 @@ public class RepositoryController {
     }
 
     @GetMapping("/list/{username}")
-    public List<Repo> listRepositories(@PathVariable String username){
-        System.out.println("lalalal");
-
-        return repositoryService.listRepositories(username);
+    public List<Repo> listRepositories(@PathVariable String username, @RequestHeader("Authorization") String token){
+        return repositoryService.listRepositories(username, token);
     }
     @GetMapping("/rating/{username}")
-    public int countStargazers(@PathVariable String username){
-        return repositoryService.countStargazers(username);
+    public int countStargazers(@PathVariable String username, @RequestHeader("Authorization") String token){
+        return repositoryService.countStargazers(username, token);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
