@@ -3,7 +3,7 @@ package io.github.Vendeis.allegrotask.service;
 
 import io.github.Vendeis.allegrotask.exception.UserNotFoundException;
 import io.github.Vendeis.allegrotask.model.Repo;
-import org.apache.catalina.User;
+import io.github.Vendeis.allegrotask.model.User;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -37,38 +37,36 @@ public class RepositoryService {
     }
 
     public List<Repo> getReposFromGitHub(String username, String token){
-        String url = listUrl + username + "/repos";
+        String url = listUrl + username;
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", token);
             HttpEntity<String> request = new HttpEntity<>(headers);
-            ResponseEntity<Repo[]> responseEntity = restTemplate.exchange(url, HttpMethod.GET, request, Repo[].class);
+
+            ResponseEntity<User> userResponseEntity = restTemplate.exchange(url, HttpMethod.GET, request, User.class);
+            ResponseEntity<Repo[]> repoResponseEntity = restTemplate.exchange(url + "/repos?per_page=100", HttpMethod.GET, request, Repo[].class);
+
+            int numberOfRepos = userResponseEntity.getBody().getPublic_repos();
 
             //if user has more than 30 repositories, they are divided into pages, it needs to be addressed
+            //we can change the amount of repos per page, but only up to 100/page
 
-            //if Link Header is not present, then user has <= 30 repos and all of them are in responseEntity's body
-            if(!responseEntity.getHeaders().containsKey("Link")) {
-                Repo[] repoArray = responseEntity.getBody();
+            //if the amount of user's repositories does not exceed 100, they will all fit into one page
+            if(numberOfRepos<=100) {
+                Repo[] repoArray = repoResponseEntity.getBody();
                 if (repoArray != null) {
                     return Arrays.asList(repoArray);
                 }
             }
-            //if Link Header is present it means that user has > 30 repos, we need to traverse through all pages
+            //if user has more than 100 repositories, then we need to traverse through all pages
             else{
-                // how a Link header looks like:
-                // Link: <https://api.github.com/user/47313/repos?page=2>; rel="next",
-                // <https://api.github.com/user/47313/repos?page=2>; rel="last"
-
-                String linkHeader = responseEntity.getHeaders().get("Link").toString();
-                int indexOfRelLast = linkHeader.indexOf("rel=\"last\"");
-                int lastPageIndex = linkHeader.indexOf("?page=",indexOfRelLast-20);
-                int lastPageNumber = Integer.parseInt(linkHeader.substring(lastPageIndex+6, indexOfRelLast-3));
+                int numberOfPages = (int)Math.ceil((double)numberOfRepos/100);
 
                 List<Repo> repoList = new ArrayList<>();
-                for(int i=1; i<=lastPageNumber; i++){
-                    responseEntity = restTemplate.exchange(url + "?page=" + i, HttpMethod.GET, request, Repo[].class);
+                for(int i=1; i<=numberOfPages; i++){
+                    repoResponseEntity = restTemplate.exchange(url + "/repos?per_page=100&page=" + i, HttpMethod.GET, request, Repo[].class);
 
-                    Collections.addAll(repoList,responseEntity.getBody());
+                    Collections.addAll(repoList,repoResponseEntity.getBody());
                 }
                 return repoList;
             }
