@@ -28,13 +28,16 @@ https://github.com/settings/tokens/
 
 Now you can access the application's endpoints with curl command 
 
+
 curl -i -u YourUsername:YourGitHubAccessToken  URL
-e.g
+
+e.g.
 
 curl -i -u Vendeis:XXXX http://localhost:8080/repo/list/Vendeis
 
 or by using a more convinient tool, such as Postman
 
+![postman](https://user-images.githubusercontent.com/56355926/115912552-c21df380-a46f-11eb-9bd2-974a4eed5cf8.png)
 
 ## Possible development directions
 Currently the project is relatively small, but it can be developed in various ways, such as:
