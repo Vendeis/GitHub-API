@@ -18,7 +18,7 @@ java -jar target/allegrotask-1.0.jar
 
 ## Sending Api requests
 
-Unauthenticated clients can make up to 60 requests per hour, which is in my opinion insufficient. Therefore I have implemented authentication via username and github access token, which extends the amount of requests per hour to 5000. 
+Unauthenticated clients can make up to 60 requests to GitHub API per hour, which is in my opinion insufficient(let's say you want to list repos of a GitHub user that has A LOT of repositories - it will exhaust your hourly limit right away!). Therefore I have implemented authentication via username and github access token, which extends the amount of requests per hour to 5000. 
 
 The application exposes 2 endpoints:<br/>
 
