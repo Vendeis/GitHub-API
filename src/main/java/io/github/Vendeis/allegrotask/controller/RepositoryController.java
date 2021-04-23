@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
 @RequestMapping("/repo")
 public class RepositoryController {
 
-    final RepositoryService repositoryService;
+    private final RepositoryService repositoryService;
 
     @Autowired
     public RepositoryController(RepositoryService repositoryService){

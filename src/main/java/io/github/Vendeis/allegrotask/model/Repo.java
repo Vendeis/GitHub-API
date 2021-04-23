@@ -20,5 +20,11 @@ public class Repo {
         this.stargazers_count = stargazers_count;
     }
 
-
+    @Override
+    public String toString() {
+        return "Repo{" +
+                "name='" + name + '\'' +
+                ", stargazers_count=" + stargazers_count +
+                '}';
+    }
 }
