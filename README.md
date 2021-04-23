@@ -27,8 +27,10 @@ your requests have to be authenticated via GitHub personal access token. Please 
 https://github.com/settings/tokens/
 
 Now you can access the application's endpoints with curl command 
+
 curl -i -u YourUsername:YourGitHubAccessToken  URL
 e.g
+
 curl -i -u Vendeis:XXXX http://localhost:8080/repo/list/Vendeis
 
 or by using a more convinient tool, such as Postman
