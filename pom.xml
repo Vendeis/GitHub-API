@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>io.github.Vendeis</groupId>
 	<artifactId>allegrotask</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>allegrotask</name>
 	<description>Application that provides functionalities using GitHub API</description>
 	<properties>

@@ -96,8 +96,8 @@ public class IntegrationTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
-        Integer stargazerCount = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Integer.class);
 
+        Integer stargazerCount = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Integer.class);
 
         Assertions.assertEquals(stargazerCount,0);
     }
