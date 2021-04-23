@@ -9,9 +9,11 @@
 ## Setup
 
 * clone the repository
-* navigate to the root folder and build the project using following command:
+* navigate to src/main/resources/application.properties and fill in your GITHUB_USERNAME & GITHUB_TOKEN<br/>
+(explained in "Sending Api requests", it is required for tests to run correctly) 
+* navigate to the root folder and build the project using following command:<br/>
 mvn clean install
-* after building the application run following command to start it:
+* after building the application run following command to start it:<br/>
 java -jar target/allegrotask-1.0.jar
 
 ## Sending Api requests
