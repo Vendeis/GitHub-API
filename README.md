@@ -20,7 +20,7 @@ Unauthenticated clients can make up to 60 requests per hour, which is in my opin
 
 The application exposes 2 endpoints:<br/>
 
-/list/{username} - returns a list of all repositories, alongside their stargazer count, for a given GitHub user.
+/list/{username} - returns a list of all repositories, alongside their stargazer count, for a given GitHub user.<br/>
 /rating/{username} - returns a sum of stargazers from all repositories of a given GitHub user.
 
 **IMPORTANT NOTE**<br/>
@@ -34,6 +34,7 @@ curl -i -u YourUsername:YourGitHubAccessToken  URL<br/>
 e.g.
 
 curl -i -u Vendeis:XXXX http://localhost:8080/repo/list/Vendeis <br/>
+
 or by using a more convinient tool, such as Postman
 
 ![postman](https://user-images.githubusercontent.com/56355926/115912552-c21df380-a46f-11eb-9bd2-974a4eed5cf8.png)
