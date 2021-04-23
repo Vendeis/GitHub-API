@@ -18,23 +18,22 @@ java -jar target/allegrotask-1.0.jar
 
 Unauthenticated clients can make up to 60 requests per hour, which is in my opinion insufficient. Therefore I have implemented authentication via username and github access token, which extends the amount of requests per hour to 5000. 
 
-The application exposes 2 endpoints:
+The application exposes 2 endpoints:<br/>
+
 /list/{username} - returns a list of all repositories, alongside their stargazer count, for a given GitHub user.
 /rating/{username} - returns a sum of stargazers from all repositories of a given GitHub user.
 
-IMPORTANT NOTE
+**IMPORTANT NOTE**<br/>
 your requests have to be authenticated via GitHub personal access token. Please use an already existing token, or generate one here:
 https://github.com/settings/tokens/
 
-Now you can access the application's endpoints with curl command 
+Now you can access the application's endpoints with curl command<br/>
 
-
-curl -i -u YourUsername:YourGitHubAccessToken  URL
+curl -i -u YourUsername:YourGitHubAccessToken  URL<br/>
 
 e.g.
 
-curl -i -u Vendeis:XXXX http://localhost:8080/repo/list/Vendeis
-
+curl -i -u Vendeis:XXXX http://localhost:8080/repo/list/Vendeis <br/>
 or by using a more convinient tool, such as Postman
 
 ![postman](https://user-images.githubusercontent.com/56355926/115912552-c21df380-a46f-11eb-9bd2-974a4eed5cf8.png)
