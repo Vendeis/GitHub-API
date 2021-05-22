@@ -1,4 +1,4 @@
-#  Task number 3
+#  Application that fetches repositories of specified GitHub user
 
 ## Table of contents
 * [Setup](#setup)
